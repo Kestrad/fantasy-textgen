@@ -3,11 +3,11 @@ import sys
 import re
 import json
 
-wordlist = open('texts.txt', 'r').read()
+# wordlist = open('texts.txt', 'r').read()
 
-corpus = wordlist.split()
+# corpus = wordlist.split()
 
-wordDict = {}
+# wordDict = {}
 
 # for word1, word2 in zip(corpus[:-1], corpus[1:]):
 #   if word1 in wordDict.keys():
