@@ -3,12 +3,20 @@ import sys
 import re
 import json
 
-#construct the trigram dictionary
-wordlist = open('texts.txt', 'r').read()
+# #construct the trigram dictionary
+# wordlist = open('seed.txt', 'r').read()
 
-corpus = wordlist.split()
+# regex1 = re.compile(r'(\w)([;,?.!\"])')
+# regex2 = re.compile(r'([?.!\"])(\w)')
+# regex3 = re.compile(r'([?.!\"])([?.!\"])')
 
-wordDict = {}
+# wordlist = regex1.sub(r'\1' + " " + r'\2', wordlist)
+# wordlist = regex2.sub(r'\1' + " " + r'\2', wordlist)
+# wordlist = regex3.sub(r'\1' + " " + r'\2', wordlist)
+
+# corpus = wordlist.split()
+
+# wordDict = {}
 
 # for word1, word2, word3 in zip(corpus[:-2], corpus[1:-1], corpus[2:]):
 #   if word1 in wordDict.keys():
@@ -48,7 +56,20 @@ for i in range(int(length)):
   firstWord = text[-2]
   secWord = text[-1]
   firstDict = wordDict[firstWord]
-  thirdWord = np.random.choice(firstDict[secWord])
+  while True:
+    thirdWord = np.random.choice(firstDict[secWord])
+    if thirdWord != '"':
+      break
+  text.append(thirdWord)
+
+while text[-1] != '.':
+  firstWord = text[-2]
+  secWord = text[-1]
+  firstDict = wordDict[firstWord]
+  while True:
+    thirdWord = np.random.choice(firstDict[secWord])
+    if thirdWord != '"':
+      break
   text.append(thirdWord)
 
 finalText = ' '.join(text)
@@ -62,6 +83,11 @@ def cap(match):
 #in theory this should capitalize the first letter of every sentence
 finalText = p.sub(cap, finalText)
 
-finalText = finalText.capitalize() + '.'
+#capitalize first word
+finalText = finalText[:1].upper() + finalText[1:]
+
+#makes spacing around punctuation correct again
+reg = re.compile(r'(\w)(\s)([\.\?!,;])')
+finalText = reg.sub(r'\1\3', finalText)
 
 print finalText
